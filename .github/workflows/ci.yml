@@ -48,6 +48,10 @@ jobs:
   build-and-push:
     needs: [lint, test]
     runs-on: ubuntu-latest
+    # Explicitly grant write access to packages and repository content
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -66,7 +70,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/pannalamanasa/cawassignment
           tags: |
             type=sha,format=long
             type=ref,event=branch
