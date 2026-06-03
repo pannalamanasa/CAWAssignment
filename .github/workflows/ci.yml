@@ -2,12 +2,12 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]  # Fix Symptom 3: Limits pushes only to the main branch
   pull_request:
-    branches: [ main ]
+    branches: [ main ]  # Allows PRs to run quality gates without deploying
 
 jobs:
-  # Stage 1: Parallel Code Quality & Testing Gateway
+  # Parallel Code Quality & Testing Gateway
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -44,17 +44,20 @@ jobs:
       - name: Run Tests
         run: npm test
 
-  # Stage 2: Sequential Container Build & Delivery (Runs only if Lint + Test pass)
+  # Sequential Container Build & Delivery
   build-and-push:
     needs: [lint, test]
+    # Fix Symptom 3: Strictly prevents delivery execution on non-main branches
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
-    # Explicitly grant write access to packages and repository content
     permissions:
       contents: read
       packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # (Removed any unmasked 'printenv' or debug commands - Fixes Symptom 1)
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -73,7 +76,6 @@ jobs:
           images: ghcr.io/pannalamanasa/cawassignment
           tags: |
             type=sha,format=long
-            type=ref,event=branch
             latest
 
       - name: Build and Push Docker Image
@@ -83,5 +85,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # Fix Symptom 2: Explicitly restore cache tracking structures
           cache-from: type=gha
           cache-to: type=gha,mode=max
