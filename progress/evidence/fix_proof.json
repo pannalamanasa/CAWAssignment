@@ -1,0 +1,10 @@
+{
+  "summary": "Verified the student's explanation and implementation of the stable sorting fix.",
+  "evidence": [
+    "Student explained that adding a unique primary key (id) as a secondary tie-breaker forces a single mathematically possible sequence for rows with identical timestamps.",
+    "Verified that nest-api/src/links/links.service.ts sorts by createdAt and id."
+  ],
+  "artifacts": [
+    "nest-api/src/links/links.service.ts"
+  ]
+}

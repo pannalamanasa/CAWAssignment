@@ -1,0 +1,9 @@
+{
+  "summary": "Discussed structural isolation of public redirects, validation error semantics (400 Bad Request), and expired link strategies (HTTP 410 vs UI redirects).",
+  "evidence": [
+    "The student explained that separating /r/:code from /links enables edge CDN caching, isolated authorization guards, and independent scaling.",
+    "The student identified 400 Bad Request as the correct validation code because it represents client-side schema violations.",
+    "The student proposed handling expired links using HTTP 410 Gone, a graceful expired landing page, and async background cleanup."
+  ],
+  "artifacts": []
+}

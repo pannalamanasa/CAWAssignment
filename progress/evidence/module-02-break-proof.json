@@ -1,0 +1,9 @@
+{
+  "summary": "Analysed log excerpt to diagnose a log injection attack (CWE-117) where a newline character in the url field of request r-101 mimicked a standalone admin login log (r-102).",
+  "evidence": [
+    "Detected explicit newline escape character (\\n) nested inside the url field of r-101: https://normal-url.com\\n{\"ts\":\"2025-01-15T15:42:03.500Z\",...}",
+    "Noticed timing anomaly: r-101 closed at 15:42:03.420Z, but the nested log claimed to run at 15:42:03.500Z (80ms after r-101 completed).",
+    "Hypothesised that the long_url input was not sanitized for newlines before printing to the structured log stream."
+  ],
+  "artifacts": []
+}

@@ -1,0 +1,9 @@
+{
+  "summary": "Assigned the product scenario key to linkops in the bootcamp configuration state.",
+  "evidence": [
+    "Updated progress/state.json setting product_scenario to linkops."
+  ],
+  "artifacts": [
+    "progress/state.json"
+  ]
+}

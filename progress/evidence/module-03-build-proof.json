@@ -1,0 +1,20 @@
+{
+  "summary": "Built Module 3 NestJS Core API & CRUD logic, including link creation, listing, id retrieval, and /r/<code> redirects. Enforced security validation bounds to prevent exploitation.",
+  "evidence": [
+    "Created links controller, service, and DTO modules in nest-api/src/links.",
+    "Created redirect controller at nest-api/src/redirect/redirect.controller.ts mapping to /r/:code.",
+    "Applied database schema via Prisma db push to PostgreSQL database on port 5432.",
+    "Started NestJS development server on port 3000.",
+    "Verified link creation via POST /links returns 201 Created and short_url/code.",
+    "Verified redirect via GET /r/:code returns 302 Found redirecting to target long URL.",
+    "Verified health check endpoint GET /health continues to return 200 OK.",
+    "Successfully validated and blocked case-insensitive schemes, relative URLs, userinfo formats, and backslash bypasses (all returning 400 Bad Request)."
+  ],
+  "artifacts": [
+    "nest-api/src/links/links.controller.ts",
+    "nest-api/src/links/links.service.ts",
+    "nest-api/src/links/dto/create-link.dto.ts",
+    "nest-api/src/redirect/redirect.controller.ts",
+    "nest-api/src/main.ts"
+  ]
+}

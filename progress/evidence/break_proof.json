@@ -1,0 +1,10 @@
+{
+  "summary": "Verified the student's hypothesis regarding unstable database sort order as the root cause of flaky pagination duplicates.",
+  "evidence": [
+    "Student correctly identified that pagination relies on deterministic sort order, which PostgreSQL does not guarantee for non-unique columns without a secondary unique tie-breaker.",
+    "Student confirmed this via injecting duplicate timestamp rows and verifying ordering shifts across sequential queries."
+  ],
+  "artifacts": [
+    "nest-api/src/links/links.service.ts"
+  ]
+}

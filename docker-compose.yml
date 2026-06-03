@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # ---------------------------------------------------------------------------
+  # Primary Persistent Datastore: PostgreSQL
+  # Rationale: Limits total connections to replicate resource constraints 
+  # and enforce proper application-layer pool lifecycle management.
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: url-shortener-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: shortener_admin
+      POSTGRES_PASSWORD: production_secure_pwd_2026
+      POSTGRES_DB: shortener_prod
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Mount schema.sql into the auto-initialization directory
+      - ./database/migrations/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+    command: ["postgres", "-c", "max_connections=100", "-c", "log_min_messages=warning"]
+    networks:
+      - shortener_isolated_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shortener_admin -d shortener_prod"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # High-Speed Caching & Deduplication Store: Redis
+  # Rationale: Operates on an isolated network channel. Application software
+  # must utilize explicit namespaces (link:redirect:* vs analytics:dedup:*)
+  # to guarantee no cross-subsystem state corruption.
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7.2-alpine
+    container_name: url-shortener-cache
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    networks:
+      - shortener_isolated_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  shortener_isolated_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local

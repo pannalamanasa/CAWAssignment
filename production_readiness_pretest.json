@@ -1,0 +1,21 @@
+{
+  "events": [
+    {
+      "module": 1,
+      "step": "pretest",
+      "event_type": "pretest",
+      "data": {
+        "self_rating": "strong",
+        "answers": {
+          "dockerfile_vs_image": "Dockerfile is the build instruction file; Docker image is the immutable runnable package produced from it.",
+          "production_failures_after_local_tests": "Named connection pool starvation/retry storms and configuration/network asymmetry across cloud, IAM, WAF, third-party APIs, timeouts, and CORS/routing.",
+          "liveness_vs_readiness": "Liveness determines whether the process should restart; readiness determines whether the instance should receive traffic. Student correctly noted dependency failures should remove traffic without causing crash loops.",
+          "latency_doubled_response": "Check golden-signal metrics for a strict 60-second window, then rollback if no immediate root cause is visible.",
+          "shipping_philosophy": "Rejected both extremes; favored automated guardrails that allow fast safe shipping with CI/CD validation, canaries, and linting constraints.",
+          "no_monitoring_risk": "No telemetry creates silent systemic decay and removes historical baselines needed for diagnosis.",
+          "graceful_degradation": "Shed secondary features under failure to preserve the core business function, such as disabling analytics while preserving redirects."
+        }
+      }
+    }
+  ]
+}

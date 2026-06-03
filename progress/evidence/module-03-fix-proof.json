@@ -1,0 +1,13 @@
+{
+  "summary": "Fixed the scheme validation bypass vulnerability in validateLongUrl by uncommenting and re-enabling the protocol allowlist check, making it block non-http/https schemes.",
+  "evidence": [
+    "Uncommented the protocol validation checks in nest-api/src/links/links.service.ts.",
+    "NestJS automatically recompiled and restarted the development server.",
+    "Added a regression test to nest-api/test/app.e2e-spec.ts to verify javascript: URLs are rejected with a 400 Bad Request.",
+    "Ran the e2e test suite, confirming that both / GET and the javascript: regression test pass successfully."
+  ],
+  "artifacts": [
+    "nest-api/src/links/links.service.ts",
+    "nest-api/test/app.e2e-spec.ts"
+  ]
+}

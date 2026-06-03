@@ -1,0 +1,24 @@
+{
+  "bootcamp": {
+    "product_scenario": "linkops"
+  },
+  "decisions": {
+    "module_01": {
+      "project_layout": "monorepo",
+      "api_root": "apps/api",
+      "status": "complete"
+    },
+    "module_02": {
+      "database_choice": "postgres",
+      "status": "complete"
+    },
+    "module_03": {
+      "redirect_route_style": "prefixed",
+      "status": "complete"
+    }
+  },
+  "next": {
+    "module": "02",
+    "step": "context"
+  }
+}

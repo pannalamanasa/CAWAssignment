@@ -1,0 +1,14 @@
+{
+  "summary": "Completed Module 1 FIX regression check.",
+  "evidence": [
+    "Fixed apps/api/.env from PORT= to PORT=8000.",
+    "Restarted the FastAPI server on port 8000.",
+    "curl.exe http://localhost:8000/health returned {\"ok\":true}.",
+    "Student explained that the regression check proved the FastAPI server is healthy and reachable at the updated port."
+  ],
+  "artifacts": [
+    "apps/api/.env",
+    "apps/api/app/config.py",
+    "apps/api/app/main.py"
+  ]
+}

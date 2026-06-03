@@ -1,0 +1,37 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+model Link {
+  id        String   @id @default(uuid())
+  code      String   @unique // Creates the lookup index automatically
+  longUrl   String   @map("long_url")
+  createdBy String   @map("created_by") // Dashboard query: "list links for this owner"
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  clickEvents ClickEvent[]
+
+  @@unique([longUrl, createdBy])
+  @@index([createdBy]) // Index to speed up fetching a user's dashboard links
+  @@map("links")
+}
+
+model ClickEvent {
+  userAgent String?  @map("user_agent")
+  referrer  String?
+  id        String   @id @default(uuid())
+  linkId    String   @map("link_id")
+  ipHash    String   @map("ip_hash") // Production safe: hashed, not raw IP
+  clickedAt DateTime @default(now()) @map("clicked_at") @db.Timestamptz(3)
+
+  link Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  // Compound index for analytics: "clicks for this link during this time range"
+  @@index([linkId, clickedAt])
+  @@map("click_events")
+}

@@ -1,0 +1,8 @@
+{
+  "summary": "Completed the CONTEXT step of Module 1: Hypothesis-First Debugging, demonstrating understanding of symptoms vs. root causes, shotgun debugging, and diagnostic tests for 500 errors.",
+  "evidence": [
+    "Answered micro-exercise questions on diagnosing 500 errors.",
+    "Identified database connection failures and unhandled code exceptions as root causes, with Docker checks and log tailing as verification commands."
+  ],
+  "artifacts": []
+}
